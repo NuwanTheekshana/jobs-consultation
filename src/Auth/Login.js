@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +8,15 @@ function Login() {
     const [Password, setPassword] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        if (storedToken === null) {
+          navigate('/login');
+        } else {
+            navigate('/home');
+        }
+      }, [navigate]);
 
     const handleEmailChange = (value) => {
         setEmail(value);

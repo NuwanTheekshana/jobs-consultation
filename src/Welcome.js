@@ -1,21 +1,22 @@
-import React, { Component } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
- 
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../src/Components/header';
 import Footer from '../src/Components/footer';
- 
-class Welcome extends Component {
-    componentDidMount() {
-        AOS.init({
-          duration: 1000,
-          delay: 100,
-        });
-      }
 
-    render() {
-        return (
-		<div>
+function Welcome() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken === null) {
+      navigate('/');
+    } else {
+      navigate('/home');
+    }
+  }, [navigate]);
+
+  return (
+    <div>
             <Header />
             
             <div>
@@ -262,7 +263,7 @@ class Welcome extends Component {
 
 		<Footer />
         </div>
-)
-    }
+  );
 }
+
 export default Welcome;
