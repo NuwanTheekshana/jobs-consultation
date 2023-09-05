@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+import 'jquery/dist/jquery.min.js'; 
+import 'datatables.net-bs5/js/dataTables.bootstrap5.min.js';
+
 
 
 function Navbar() {

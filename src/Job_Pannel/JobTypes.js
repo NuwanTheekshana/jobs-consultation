@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './Navbar';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
+import $ from 'jquery'; // jQuery
 
 function JobTypes() {
   const [showModal, setShowModal] = useState(false);
@@ -18,9 +19,55 @@ function JobTypes() {
   const [editingjobtype, setEditingjobtype] = useState(null);
   const [deletingjobtype, setDeletingjobtype] = useState(null);
 
+
+  const tableRef = useRef(null);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('https://localhost:7103/api/JobType/Getjobtype');
+      setjobtypeList(response.data);
+
+      if ($.fn.DataTable.isDataTable('#tableId')) {
+        tableRef.current.DataTable().destroy();
+      }
+
+      tableRef.current = $('#tableId').DataTable({
+        data: response.data,
+        columns: [
+          { data: 'spec_Id' },
+          { data: 'spec_Name', title: 'Job Type Name' },
+          {
+            data: null,
+            render: renderActionButtons,
+          },
+        ],
+        language: {
+          emptyTable: 'No data available in table',
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching job type list', error);
+    }
+  };
+
+
   useEffect(() => {
-    fetchjobtypeList();
+    fetchData();
   }, []);
+
+
+  const renderActionButtons = (data, type, row) => {
+    return (
+      '<center>' +
+      '<button type="button" class="btn btn-success btn-sm" onclick="window.handleEdit(' +
+      row.spec_Id + ', \'' + row.spec_Name +
+      '\')"><i class="bi bi-pencil-square"></i> Edit</button>' +
+      '&nbsp;' +
+      '<button type="button" class="btn btn-danger btn-sm" onclick="window.handleDelete(' +
+      row.spec_Id +
+      ')">Delete</button>' +
+      '</center>'
+    );
+  };
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => {
@@ -44,63 +91,52 @@ function JobTypes() {
     });
   };
 
-  const fetchjobtypeList = async () => {
+  const handleAddjobtype = async () => {
     try {
-      const response = await axios.get('https://localhost:7103/api/JobType/Getjobtype');
-      setjobtypeList(response.data);
+      const errors = {};
+      if (!formData.spec_Name) {
+        errors.spec_Name = 'Job type name is required.';
+      }
+      if (Object.keys(errors).length > 0) {
+        setFormErrors(errors);
+        return;
+      }
+      if (editingjobtype) {
+        await axios.put(`https://localhost:7103/api/JobType/jobtype/${editingjobtype}`, formData);
+      } else {
+        await axios.post('https://localhost:7103/api/JobType/jobtype', formData);
+      }
+      console.log('Job type updated successfully');
+      handleCloseModal();
+      window.location.reload();
     } catch (error) {
-      console.error('Error fetching job type list', error);
+      console.error('Error updating job type', error);
     }
   };
 
-  const handleAddjobtype = async () => {
-  try {
-    const errors = {};
-    if (!formData.spec_Name) {
-      errors.spec_Name = 'Job type name is required.';
-    }
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
-      return;
-    }
-    if (editingjobtype) {
-      await axios.put(`https://localhost:7103/api/JobType/jobtype/${editingjobtype.spec_Id}`, formData);
-    } else {
-      await axios.post('https://localhost:7103/api/JobType/jobtype', formData);
-    }
-    console.log('Job type updated successfully');
-    handleCloseModal();
-    fetchjobtypeList();
-  } catch (error) {
-    console.error('Error updating job type', error);
-  }
-}
-
-  const handleEdit = (jobtype) => {
+  window.handleEdit = (jobtype, spec_Name) => {
     setEditingjobtype(jobtype);
     setFormData({
-    spec_Name: jobtype.spec_Name,
+      spec_Name: spec_Name,
     });
     handleShowModal();
-};
+  };
 
-const handleDelete = (jobtype) => {
+  window.handleDelete = (jobtype) => {
     setDeletingjobtype(jobtype);
     handleShowDeleteModal();
-};
+  };
 
-const handleDeletejobtype = async () => {
+  const handleDeletejobtype = async () => {
     try {
-    await axios.delete(`https://localhost:7103/api/JobType/jobtype/${deletingjobtype.spec_Id}`);
-    console.log('Job type deleted successfully');
-    handleCloseDeleteModal();
-    fetchjobtypeList();
+      await axios.delete(`https://localhost:7103/api/JobType/jobtype/${deletingjobtype}`);
+      console.log('Job type deleted successfully');
+      handleCloseDeleteModal();
+      window.location.reload();
     } catch (error) {
-    console.error('Error deleting job type', error);
+      console.error('Error deleting job type', error);
     }
-};
-
-  
+  };
 
   return (
     <div>
@@ -115,7 +151,7 @@ const handleDeletejobtype = async () => {
             </Button>
           </div>
           <div className="card-body">
-          <table className="table table-bordered table-striped">
+          <table id="tableId" className="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th>Job Type Id</th>
@@ -123,26 +159,11 @@ const handleDeletejobtype = async () => {
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
-                {jobtypeList.map((jobtype) => (
-                    <tr key={jobtype.spec_Id}>
-                    <td>{jobtype.spec_Id}</td>
-                    <td>{jobtype.spec_Name}</td>
-                    <td>
-                    <button type="button" className="btn btn-success btn-sm" onClick={() => handleEdit(jobtype)}><i className="bi bi-pencil-square"></i> Edit</button>
-                    &nbsp;
-                    <button type="button" className="btn btn-danger btn-sm" onClick={() => handleDelete(jobtype)}>Delete</button>
-                    </td>
-                    </tr>
-                ))}
-                </tbody>
-
+              <tbody></tbody>
             </table>
           </div>
         </div>
       </div>
-
-
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
@@ -154,8 +175,16 @@ const handleDeletejobtype = async () => {
               <label htmlFor="spec_Name" className="form-label">
                 Job Type Name
               </label>
-              <input type="text" className={`form-control ${formErrors.spec_Name ? 'is-invalid' : ''}`} id="spec_Name" name="spec_Name" placeholder="" value={formData.spec_Name} onChange={handleInputChange}             />
-              {formErrors.spec_Name && (<div className="invalid-feedback">{formErrors.spec_Name}</div>)}
+              <input
+                type="text"
+                className={`form-control ${formErrors.spec_Name ? 'is-invalid' : ''}`}
+                id="spec_Name"
+                name="spec_Name"
+                placeholder=""
+                value={formData.spec_Name}
+                onChange={handleInputChange}
+              />
+              {formErrors.spec_Name && <div className="invalid-feedback">{formErrors.spec_Name}</div>}
             </div>
           </form>
         </Modal.Body>
@@ -169,15 +198,11 @@ const handleDeletejobtype = async () => {
         </Modal.Footer>
       </Modal>
 
-
-
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete this job type?
-        </Modal.Body>
+        <Modal.Body>Are you sure you want to delete this job type?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" size="sm" onClick={handleCloseDeleteModal}>
             Cancel
@@ -187,7 +212,6 @@ const handleDeletejobtype = async () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
     </div>
   );
 }

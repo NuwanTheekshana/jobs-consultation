@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './Navbar';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
+import $ from 'jquery'; // jQuery
 
 function Country() {
   const [showModal, setShowModal] = useState(false);
@@ -20,9 +21,53 @@ function Country() {
   const [editingCountry, setEditingCountry] = useState(null);
   const [deletingCountry, setDeletingCountry] = useState(null);
 
+  const tableRef = useRef(null);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('https://localhost:7103/api/Country/countries');
+      setCountryList(response.data);
+
+      if ($.fn.DataTable.isDataTable('#tableId')) {
+        tableRef.current.DataTable().destroy();
+      }
+      tableRef.current = $('#tableId').DataTable({
+        data: response.data,
+        columns: [
+          { data: 'country_Id' },
+          { data: 'country_Code', title: 'Country Code' },
+          { data: 'country_Name', title: 'Country Name' },
+          {
+            data: null,
+            render: renderActionButtons,
+          },
+        ],
+        language: {
+          emptyTable: 'No data available in table',
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching job type list', error);
+    }
+  };
+
   useEffect(() => {
-    fetchCountryList();
+    fetchData();
   }, []);
+
+const renderActionButtons = (data, type, row) => {
+    return (
+      '<center>' +
+      '<button type="button" class="btn btn-success btn-sm" onclick="window.handleEdit(' +
+      row.country_Id + ', \'' + row.country_Code + '\', \'' + row.country_Name +
+      '\')"><i class="bi bi-pencil-square"></i> Edit</button>' +
+      '&nbsp;' +
+      '<button type="button" class="btn btn-danger btn-sm" onclick="window.handleDelete(' +
+      row.country_Id +
+      ')">Delete</button>' +
+      '</center>'
+    );
+  };
+  
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => {
@@ -48,15 +93,6 @@ function Country() {
     });
   };
 
-  const fetchCountryList = async () => {
-    try {
-      const response = await axios.get('https://localhost:7103/api/Country/countries');
-      setCountryList(response.data);
-    } catch (error) {
-      console.error('Error fetching country list', error);
-    }
-  };
-
   const handleAddCountry = async () => {
   try {
     const errors = {};
@@ -72,38 +108,39 @@ function Country() {
     }
     
     if (editingCountry) {
-      await axios.put(`https://localhost:7103/api/Country/country/${editingCountry.country_Id}`, formData);
+      await axios.put(`https://localhost:7103/api/Country/country/${editingCountry}`, formData);
     } else {
       await axios.post('https://localhost:7103/api/country/country', formData);
     }
     console.log('Country added/updated successfully');
     handleCloseModal();
-    fetchCountryList();
+    window.location.reload();
   } catch (error) {
     console.error('Error adding/updating country', error);
   }
 }
 
-  const handleEdit = (country) => {
-    setEditingCountry(country);
+window.handleEdit = (jobtype, country_Code, country_Name) => {
+    setEditingCountry(jobtype);
     setFormData({
-    Country_Code: country.country_Code,
-    Country_Name: country.country_Name,
+        Country_Code: country_Code,
+        Country_Name: country_Name,
     });
     handleShowModal();
 };
 
-const handleDelete = (country) => {
+window.handleDelete = (country) => {
     setDeletingCountry(country);
     handleShowDeleteModal();
-};
+  };
+
 
 const handleDeleteCountry = async () => {
     try {
-    await axios.delete(`https://localhost:7103/api/Country/country/${deletingCountry.country_Id}`);
+    await axios.delete(`https://localhost:7103/api/Country/country/${deletingCountry}`);
     console.log('Country deleted successfully');
     handleCloseDeleteModal();
-    fetchCountryList();
+    window.location.reload();
     } catch (error) {
     console.error('Error deleting country', error);
     }
@@ -124,7 +161,7 @@ const handleDeleteCountry = async () => {
             </Button>
           </div>
           <div className="card-body">
-          <table className="table table-bordered table-striped">
+          <table id="tableId" className="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th>Country Id</th>
@@ -132,22 +169,8 @@ const handleDeleteCountry = async () => {
                   <th>Country Name</th>
                   <th>Action</th>
                 </tr>
-              </thead>
-              <tbody>
-                {countryList.map((country) => (
-                    <tr key={country.country_Id}>
-                    <td>{country.country_Id}</td>
-                    <td>{country.country_Code}</td>
-                    <td>{country.country_Name}</td>
-                    <td>
-                    <button type="button" className="btn btn-success btn-sm" onClick={() => handleEdit(country)}><i className="bi bi-pencil-square"></i> Edit</button>
-                    &nbsp;
-                    <button type="button" className="btn btn-danger btn-sm" onClick={() => handleDelete(country)}>Delete</button>
-                    </td>
-                    </tr>
-                ))}
-                </tbody>
-
+                </thead>
+              <tbody></tbody>
             </table>
           </div>
         </div>
