@@ -14,7 +14,7 @@ function Home() {
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken === null) {
-      navigate('/login');
+      navigate('/');
     } else {
       setToken(storedToken);
       setUserName(localStorage.getItem("UserName"));

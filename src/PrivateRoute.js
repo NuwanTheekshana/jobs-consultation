@@ -6,7 +6,7 @@ function PrivateRoute({ element }) {
   const isAuthenticated = !!localStorage.getItem('token'); // Change this to your authentication logic
 
   // If authenticated, render the protected component; otherwise, redirect to the login page
-  return isAuthenticated ? element : <Navigate to="/login" />;
+  return isAuthenticated ? element : <Navigate to="/" />;
 }
 
 export default PrivateRoute;

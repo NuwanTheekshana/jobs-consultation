@@ -4,17 +4,6 @@ import Header from '../src/Components/header';
 import Footer from '../src/Components/footer';
 
 function Welcome() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken === null) {
-      navigate('/');
-    } else {
-      navigate('/home');
-    }
-  }, [navigate]);
-
   return (
     <div>
             <Header />

@@ -15,6 +15,12 @@ function Header() {
 
   const token = localStorage.getItem("token");
 
+  useEffect(() => {
+    if (token === null) {
+      navigate('/');
+    }
+  }, [navigate]);
+
   const logout = (e) => {
     e.preventDefault();
     localStorage.removeItem('token');
@@ -43,7 +49,7 @@ function Header() {
             {token ? (
               <>
                 <li>
-                  <Link to="/login">
+                  <Link to="/jobpannel">
                     <button className="btn btn-danger"><i className="bi bi-box-arrow-right"></i> Job Panel</button>
                   </Link>
                 </li>
