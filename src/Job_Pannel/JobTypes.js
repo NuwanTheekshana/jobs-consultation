@@ -175,15 +175,7 @@ function JobTypes() {
               <label htmlFor="spec_Name" className="form-label">
                 Job Type Name
               </label>
-              <input
-                type="text"
-                className={`form-control ${formErrors.spec_Name ? 'is-invalid' : ''}`}
-                id="spec_Name"
-                name="spec_Name"
-                placeholder=""
-                value={formData.spec_Name}
-                onChange={handleInputChange}
-              />
+              <input type="text" className={`form-control ${formErrors.spec_Name ? 'is-invalid' : ''}`} id="spec_Name" name="spec_Name" placeholder="" value={formData.spec_Name} onChange={handleInputChange}/>
               {formErrors.spec_Name && <div className="invalid-feedback">{formErrors.spec_Name}</div>}
             </div>
           </form>

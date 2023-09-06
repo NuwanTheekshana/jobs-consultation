@@ -120,8 +120,8 @@ const renderActionButtons = (data, type, row) => {
   }
 }
 
-window.handleEdit = (jobtype, country_Code, country_Name) => {
-    setEditingCountry(jobtype);
+window.handleEdit = (country_id, country_Code, country_Name) => {
+    setEditingCountry(country_id);
     setFormData({
         Country_Code: country_Code,
         Country_Name: country_Name,

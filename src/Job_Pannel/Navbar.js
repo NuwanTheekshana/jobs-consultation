@@ -63,8 +63,8 @@ function Navbar() {
                                 <Link to="/jobpannel/country" className="dropdown-item">
                                 Country
                                 </Link>
-                                <Link to="/jobpannel/job-types" className="dropdown-item">
-                                Job Types
+                                <Link to="/jobpannel/job-categories" className="dropdown-item">
+                                Job Categories
                                 </Link>
                             </div>
                         </li>
@@ -75,9 +75,13 @@ function Navbar() {
                             </a>
     
                             <div className="dropdown-menu dropdown-menu-end" aria-labelledby="user_dataDropdown">
-                                <a className="dropdown-item" href="#">
+                                <Link to="/jobpannel/consultant" className="dropdown-item">
+                                    Consultant
+                                </Link>
+                                
+                                <Link to="/jobpannel/users" className="dropdown-item">
                                     All Users
-                                </a>
+                                </Link>
     
                             </div>
                         </li>

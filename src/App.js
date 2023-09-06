@@ -7,6 +7,7 @@ import Home from './Home';
 import Jobpannel from './Job_Pannel/JobPannel';
 import Country from './Job_Pannel/Country';
 import JobTypes from './Job_Pannel/JobTypes';
+import Consultant from './Job_Pannel/Users/Consultant';
 
 import PrivateRoute from './PrivateRoute'; 
 import Page404 from './Error/Page404'; 
@@ -27,7 +28,8 @@ function App() {
         <Route path="/home" element={<PrivateRoute element={<Home />} />} />
         <Route path="/jobpannel" element={<PrivateRoute element={<Jobpannel />} />} />
         <Route path="/jobpannel/country" element={<PrivateRoute element={<Country />} />} />
-        <Route path="/jobpannel/job-types" element={<PrivateRoute element={<JobTypes />} />} />
+        <Route path="/jobpannel/job-categories" element={<PrivateRoute element={<JobTypes />} />} />
+        <Route path="/jobpannel/consultant" element={<PrivateRoute element={<Consultant />} />} />
       </Routes>
     </Router>
   );
