@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import $ from 'jquery'; // jQuery
 
-function OtherUser() {
+function AllUsers() {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     FName: '',
@@ -319,4 +319,4 @@ window.handleDelete = (country) => {
   )
 }
 
-export default OtherUser;
+export default AllUsers;
