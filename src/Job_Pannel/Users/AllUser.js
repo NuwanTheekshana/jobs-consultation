@@ -5,26 +5,22 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import $ from 'jquery'; // jQuery
 
-function AllUsers() {
+function AllUser() {
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [formData, setFormData] = useState({
     FName: '',
     LName: '',
     Email: '',
-    Tel_No: '',
-    Job_Category: '',
-    Country: '',
+    Permission: '',
     Password: '',
-    
   });
   const [formErrors, setFormErrors] = useState({
     FName: '',
-      LName: '',
-      Email: '',
-      Tel_No: '',
-      Job_Category: '',
-      Country: '',
-      Password: '',
+    LName: '',
+    Email: '',
+    Permission: '',
+    Password: '',
   });
 
   const handleShowModal = () => setShowModal(true);
@@ -34,30 +30,25 @@ function AllUsers() {
       FName: '',
       LName: '',
       Email: '',
-      Tel_No: '',
-      Job_Category: '',
-      Country: '',
+      Permission: '',
       Password: '',
     });
     setFormErrors({
       FName: '',
       LName: '',
       Email: '',
-      Tel_No: '',
-      Job_Category: '',
-      Country: '',
+      Permission: '',
       Password: '',
     });
   };
 
-  const [countries, setCountries] = useState([]); 
-  const [JobCategories, setJobCategories] = useState([]); 
-  const [Consultant, setConsultant] = useState([]); 
+
+  const [editingAllUser, seteditingAllUser] = useState(null);
+  const [deletingAllUser, setDeletingAllUser] = useState(null);
+  const [AllUser, setAllUser] = useState([]); 
   
 
   useEffect(() => {
-    handlecountrylist();
-    handlejobcateogorylist();
     fetchData();
   }, []);
 
@@ -65,21 +56,21 @@ function AllUsers() {
   const tableRef = useRef(null);
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://localhost:7103/api/Registration/Consultant');
-      setConsultant(response.data);
+      const response = await axios.get('https://localhost:7103/api/Registration/Users');
+      setAllUser(response.data);
 
       if ($.fn.DataTable.isDataTable('#tableId')) {
         tableRef.current.DataTable().destroy();
       }
+      console.log(response.data);
       tableRef.current = $('#tableId').DataTable({
         data: response.data,
         columns: [
-          { data: 'cons_Id', title: 'Consultant Id' },
+          { data: 'user_Id', title: 'User Id' },
           { data: 'userName', title: 'User Name' },
           { data: 'email', title: 'Email' },
-          { data: 'tel_No', title: 'Tel Number' },
-          { data: 'job_Category', title: 'Job Category' },
-          { data: 'country', title: 'Country' },
+          { data: 'permission_Type', title: 'Permission' },
+          { data: 'status_Type', title: 'Status' },
           {
             data: null,
             render: renderActionButtons,
@@ -90,7 +81,7 @@ function AllUsers() {
         },
       });
     } catch (error) {
-      console.error('Error fetching consultant list', error);
+      console.error('Error fetching All User list', error);
     }
   };
 
@@ -98,35 +89,43 @@ function AllUsers() {
     return (
       '<center>' +
       '<button type="button" class="btn btn-success btn-sm" onclick="window.handleEdit(' +
-      row.cons_Id + ', \'' + row.userName + '\', \'' + row.email +
-      '\')"><i class="bi bi-pencil-square"></i> Edit</button>' +
+      row.user_Id + ', \'' + row.userName + '\', \'' + row.email +'\', \'' + row.permission +'\', \'' + row.status +'\')"><i class="bi bi-pencil-square"></i> Edit</button>' +
       '&nbsp;' +
       '<button type="button" class="btn btn-danger btn-sm" onclick="window.handleDelete(' +
-      row.cons_Id +
+      row.user_Id +
       ')">Delete</button>' +
       '</center>'
     );
   };
 
-  
-
-  window.handleEdit = (cons_Id, userName, email) => {
-    // setEditingCountry(cons_Id);
-    // setFormData({
-    //     Country_Code: cons_Id,
-    //     Country_Name: country_Name,
-    //     Country_Name: country_Name,
-    // });
-    // handleShowModal();
-    alert("update");
+  window.handleEdit = (user_Id, userName, email, permission) => {
+    seteditingAllUser(user_Id);
+    setFormData({
+        Username: userName,
+        Email: email,
+        Permission: permission,
+    });
+    handleShowModal();
 };
 
-window.handleDelete = (country) => {
-    // setDeletingCountry(country);
-    // handleShowDeleteModal();
-    alert("delete");
+window.handleDelete = (User_Id) => {
+    setDeletingAllUser(User_Id);
+    handleShowDeleteModal();
   };
 
+  const handleDeleteAllUser = async () => {
+    try {
+    await axios.delete(`https://localhost:7103/api/Registration/Users/${deletingAllUser}`);
+    console.log('User deleted successfully');
+    handleCloseDeleteModal();
+    window.location.reload();
+    } catch (error) {
+    console.error('Error deleting user', error);
+    }
+};
+
+  const handleShowDeleteModal = () => setShowDeleteModal(true);
+  const handleCloseDeleteModal = () => setShowDeleteModal(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -145,6 +144,9 @@ window.handleDelete = (country) => {
   const handleAddUser = async () => {
     try {
       const errors = {};
+
+      if (!editingAllUser) 
+      {
       if (!formData.FName) {
         errors.FName = 'First name is required.';
       }
@@ -156,48 +158,42 @@ window.handleDelete = (country) => {
       }else if (!isValidEmail(formData.Email)) {
         errors.Email = 'Please enter a valid email address.';
       }
-      if (!formData.Tel_No) {
-        errors.Tel_No = 'Contact number is required.';
-      }
-      if (!formData.Job_Category) {
-        errors.Job_Category = 'Job cateogories is required.';
-      }
-      if (!formData.Country) {
-        errors.Country = 'Country is required.';
+      if (!formData.Permission) {
+        errors.Permission = 'Permission is required.';
       }
       if (!formData.Password) {
         errors.Password = 'Password is required.';
       }
+    }
+    else
+    {
+      if (!formData.Email) {
+        errors.Email = 'Email is required.';
+      }else if (!isValidEmail(formData.Email)) {
+        errors.Email = 'Please enter a valid email address.';
+      }
+
+      if (!formData.Permission) {
+        errors.Permission = 'Permission is required.';
+      }
+    }
       if (Object.keys(errors).length > 0) {
         setFormErrors(errors);
         return;
       }
-      await axios.post('https://localhost:7103/api/Registration/consultant', formData);
+
+      if (editingAllUser) {
+        await axios.put(`https://localhost:7103/api/Registration/Users/${editingAllUser}`, formData);
+      } else {
+        await axios.post('https://localhost:7103/api/Registration/Users', formData);
+      }
       console.log('User added successfully');
       handleCloseModal();
+      window.location.reload();
     } catch (error) {
       console.error('User added failed', error);
     }
   };
-
-  const handlecountrylist = async () => {
-    try {
-      const response = await axios.get('https://localhost:7103/api/Country/countries');
-      setCountries(response.data);
-    } catch (error) {
-    console.error('Country list failed..!', error);
-    }
-  };
-
-  const handlejobcateogorylist = async () => {
-    try {
-      const response = await axios.get('https://localhost:7103/api/JobType/Getjobtype');
-      setJobCategories(response.data);
-    } catch (error) {
-    console.error('Job Category list failed..!', error);
-    }
-  };
-
 
 
   return(
@@ -207,9 +203,9 @@ window.handleDelete = (country) => {
       <div className="container px-4">
         <div className="card mt-4">
           <div className="card-header d-flex justify-content-between align-items-center small">
-            <h4>All Consultant List</h4>
+            <h4>All User List</h4>
             <Button variant="danger" size="sm" onClick={handleShowModal}>
-              Add Consultant
+              Add Other Users
             </Button>
           </div>
           <div className="card-body">
@@ -219,9 +215,8 @@ window.handleDelete = (country) => {
                   <th>User ID</th>
                   <th>User Name</th>
                   <th>Email</th>
-                  <th>Contact Number</th>
-                  <th>Job Category</th>
-                  <th>Country</th>
+                  <th>Permission</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -232,12 +227,14 @@ window.handleDelete = (country) => {
       </div>
 
 
+
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Consultant</Modal.Title>
+          <Modal.Title>{editingAllUser ? 'Edit Users' : 'Add Other Users'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form>
+        {!editingAllUser ?
+        <form>
             <div className="mb-3">
               <label htmlFor="FName" className="form-label">
                 First Name
@@ -259,64 +256,88 @@ window.handleDelete = (country) => {
               <input type="email" className={`form-control ${formErrors.Email ? 'is-invalid' : ''}`} id="Email" name="Email" placeholder="" value={formData.Email} onChange={handleInputChange}/>
               {formErrors.Email && <div className="invalid-feedback">{formErrors.Email}</div>}
             </div>
-            <div className="mb-3">
-              <label htmlFor="Tel_No" className="form-label">
-                Contact Number
-              </label>
-              <input type="number" className={`form-control ${formErrors.Tel_No ? 'is-invalid' : ''}`} id="Tel_No" name="Tel_No" placeholder="" value={formData.Tel_No} onChange={handleInputChange}/>
-              {formErrors.Tel_No && <div className="invalid-feedback">{formErrors.Tel_No}</div>}
-            </div>
 
+          
             <div className="mb-3">
-              <label htmlFor="Job_Category" className="form-label">Job Categories</label>
-              <select className={`form-control ${formErrors.Job_Category ? 'is-invalid' : ''}`}  id="Job_Category" name="Job_Category" onChange={handleInputChange}>
+              <label htmlFor="Permission" className="form-label">Permission</label>
+              <select className={`form-control ${formErrors.Permission ? 'is-invalid' : ''}`}  id="Permission" name="Permission" onChange={handleInputChange} value={formData.Permission}>
               <option value="">Select Job Category</option>
-                {JobCategories.map((JobCategory) => (
-                <option key={JobCategory.spec_Id} value={JobCategory.spec_Id}>
-                  {JobCategory.spec_Name}
-                </option>
-                ))}
+              <option value="1">Admin User</option>
+              <option value="4">Reception</option>
               </select>
-              {formErrors.Job_Category && <div className="invalid-feedback">{formErrors.Job_Category}</div>}
+              {formErrors.Permission && <div className="invalid-feedback">{formErrors.Permission}</div>}
             </div>
 
-            <div className="mb-3">
-            <label htmlFor="Country" className="form-label">Country</label>
-            <select className={`form-control ${formErrors.Country ? 'is-invalid' : ''}`} id="Country" name="Country" onChange={handleInputChange}>
-            <option value="">Select a country</option>
-              {countries.map((country) => (
-              <option key={country.country_Id} value={country.country_Id }>
-                {country.country_Name}
-              </option>
-              ))}
-            </select>
-            {formErrors.Country && <div className="invalid-feedback">{formErrors.Country}</div>}
-          </div>
-
+          
           <div className="mb-3">
               <label htmlFor="Password" className="form-label">
                 Password
               </label>
-              <input type="text" className={`form-control ${formErrors.Password ? 'is-invalid' : ''}`} id="Password" name="Password" placeholder="" value={formData.Password} onChange={handleInputChange}/>
+              <input type="password" className={`form-control ${formErrors.Password ? 'is-invalid' : ''}`} id="Password" name="Password" placeholder="" value={formData.Password} onChange={handleInputChange}/>
               {formErrors.Password && <div className="invalid-feedback">{formErrors.Password}</div>}
+            </div> 
+          </form>
+          : 
+          
+          <form>
+            <div className="mb-3">
+              <label htmlFor="Username" className="form-label">
+                User Name
+              </label>
+              <input type="text" className={`form-control ${formErrors.Username ? 'is-invalid' : ''}`} id="Username" name="Username" placeholder="" value={formData.Username} onChange={handleInputChange} disabled/>
+              {formErrors.Username && <div className="invalid-feedback">{formErrors.Username}</div>}
+            </div>
+            <div className="mb-3">
+              <label htmlFor="Email" className="form-label">
+                Email
+              </label>
+              <input type="email" className={`form-control ${formErrors.Email ? 'is-invalid' : ''}`} id="Email" name="Email" placeholder="" value={formData.Email} onChange={handleInputChange}/>
+              {formErrors.Email && <div className="invalid-feedback">{formErrors.Email}</div>}
             </div>
 
+            <div className="mb-3">
+              <label htmlFor="Permission" className="form-label">Permission</label>
+              <select className={`form-control ${formErrors.Permission ? 'is-invalid' : ''}`}  id="Permission" name="Permission" onChange={handleInputChange} value={formData.Permission}>
+              <option value="">Select Job Category</option>
+              <option value="1">Admin User</option>
+              <option value="2">Consultant User</option>
+              <option value="3">Job Seeker</option>
+              <option value="4">Reception</option>
+              </select>
+              {formErrors.Permission && <div className="invalid-feedback">{formErrors.Permission}</div>}
+            </div>
           </form>
+          }
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" size="sm" onClick={handleCloseModal}>
             Close
           </Button>
           <Button variant="primary" size="sm" onClick={handleAddUser}>
-            Add Consultant
+            {editingAllUser ? 'Save Changes' : 'Add User'}
           </Button>
         </Modal.Footer>
       </Modal>
-    
 
 
+      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this User?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" size="sm" onClick={handleCloseDeleteModal}>
+            Cancel
+          </Button>
+          <Button variant="danger" size="sm" onClick={handleDeleteAllUser}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }
 
-export default AllUsers;
+export default AllUser;

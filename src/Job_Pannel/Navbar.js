@@ -82,7 +82,7 @@ function Navbar() {
                                     Job Seeker
                                 </Link>
                                 
-                                <Link to="/jobpannel/users" className="dropdown-item">
+                                <Link to="/jobpannel/userlist" className="dropdown-item">
                                     All Users
                                 </Link>
     
