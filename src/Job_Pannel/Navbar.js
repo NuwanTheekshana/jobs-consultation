@@ -78,6 +78,9 @@ function Navbar() {
                                 <Link to="/jobpannel/consultant" className="dropdown-item">
                                     Consultant
                                 </Link>
+                                <Link to="/jobpannel/jobseekerlist" className="dropdown-item">
+                                    Job Seeker
+                                </Link>
                                 
                                 <Link to="/jobpannel/users" className="dropdown-item">
                                     All Users

@@ -194,6 +194,7 @@ window.handleDelete = (cons_Id) => {
       }
       console.log('User added successfully');
       handleCloseModal();
+      window.location.reload();
     } catch (error) {
       console.error('User added failed', error);
     }
@@ -318,7 +319,7 @@ window.handleDelete = (cons_Id) => {
               <label htmlFor="Password" className="form-label">
                 Password
               </label>
-              <input type="text" className={`form-control ${formErrors.Password ? 'is-invalid' : ''}`} id="Password" name="Password" placeholder="" value={formData.Password} onChange={handleInputChange}/>
+              <input type="password" className={`form-control ${formErrors.Password ? 'is-invalid' : ''}`} id="Password" name="Password" placeholder="" value={formData.Password} onChange={handleInputChange}/>
               {formErrors.Password && <div className="invalid-feedback">{formErrors.Password}</div>}
             </div> : ''}
           </form>
