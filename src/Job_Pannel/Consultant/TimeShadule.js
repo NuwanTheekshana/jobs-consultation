@@ -56,7 +56,7 @@ function TimeShadule() {
           { data: 'con_Time_Id', title: 'Consultant Time Id' },
           { data: 'time_From', title: 'From Time' },
           { data: 'time_To', title: 'To Time' },
-          { data: 'status', title: 'Status' },
+          { data: 'status_type', title: 'Status' },
           {
             data: null,
             render: renderActionButtons,
