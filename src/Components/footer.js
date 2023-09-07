@@ -10,7 +10,7 @@ class Footer extends Component {
 <div className="container footer-top">
   <div className="row gy-4">
     <div className="col-lg-5 col-md-12 footer-about">
-      <a href="index.html" className="logo d-flex align-items-center">
+      <a href="index.html" className="logo d-flex align-items-center custome">
         <span>Append</span>
       </a>
       <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
@@ -25,21 +25,21 @@ class Footer extends Component {
     <div className="col-lg-2 col-6 footer-links">
       <h4>Useful Links</h4>
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About us</a></li>
-        <li><a href="#">Terms of service</a></li>
-        <li><a href="#">Privacy policy</a></li>
+        <li><a href="#" className='custome'>Home</a></li>
+        <li><a href="#" className='custome'>About us</a></li>
+        <li><a href="#" className='custome'>Terms of service</a></li>
+        <li><a href="#" className='custome'>Privacy policy</a></li>
       </ul>
     </div>
 
     <div className="col-lg-2 col-6 footer-links">
       <h4>Our Services</h4>
       <ul>
-        <li><a href="#">Web Design</a></li>
-        <li><a href="#">Web Development</a></li>
-        <li><a href="#">Product Management</a></li>
-        <li><a href="#">Marketing</a></li>
-        <li><a href="#">Graphic Design</a></li>
+        <li><a href="#" className='custome'>Web Design</a></li>
+        <li><a href="#" className='custome'>Web Development</a></li>
+        <li><a href="#" className='custome'>Product Management</a></li>
+        <li><a href="#" className='custome'>Marketing</a></li>
+        <li><a href="#" className='custome'>Graphic Design</a></li>
       </ul>
     </div>
 
