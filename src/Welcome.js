@@ -22,55 +22,11 @@ function Welcome() {
                         <div className="col-lg-5 mt-2" data-aos="fade-up" data-aos-delay="300">
                             <button className='btn btn-danger btn-block' type='button'> <i className="bi bi-send"></i> Consultation Request</button>
                         </div>
-                    
-                    {/* <div className="col-lg-5">
-                        <form action="#" className="sign-up-form d-flex" data-aos="fade-up" data-aos-delay="300">
-                        <input type="text" className="form-control" placeholder="Enter email address" />
-                        <input type="submit" className="btn btn-primary" value="Sign up" />
-                        </form>
-                    </div> */}
 
                     </div>
                 </div>
 
                 </section>
-
-
-        <section id="clients" className="clients">
-
-            <div className="container-fluid" data-aos="fade-up">
-
-            <div className="row gy-4">
-
-                <div className="col-xl-2 col-md-3 col-6 client-logo">
-                <img src="assets/img/clients/client-1.png" className="img-fluid" alt="" />
-                </div>
-
-                <div className="col-xl-2 col-md-3 col-6 client-logo">
-                <img src="assets/img/clients/client-2.png" className="img-fluid" alt="" />
-                </div>
-
-                <div className="col-xl-2 col-md-3 col-6 client-logo">
-                <img src="assets/img/clients/client-3.png" className="img-fluid" alt="" />
-                </div>
-
-                <div className="col-xl-2 col-md-3 col-6 client-logo">
-                <img src="assets/img/clients/client-4.png" className="img-fluid" alt="" />
-                </div>
-
-                <div className="col-xl-2 col-md-3 col-6 client-logo">
-                <img src="assets/img/clients/client-5.png" className="img-fluid" alt="" />
-                </div>
-
-                <div className="col-xl-2 col-md-3 col-6 client-logo">
-                <img src="assets/img/clients/client-6.png" className="img-fluid" alt="" />
-                </div>
-
-            </div>
-
-            </div>
-
-        </section>
 
 
         <section id="about" className="about">
@@ -80,8 +36,8 @@ function Welcome() {
 
                     <div className="col-xl-5 content">
                     <h3>About Us</h3>
-                    <h2>Ducimus rerum libero reprehenderit cumque</h2>
-                    <p>Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime. Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda incidunt voluptatem tempora deleniti soluta.</p>
+                    <h2>Welcome to Jobs Consultation Services</h2>
+                    <p>Your trusted source for expert guidance and consultation services in Colombo. We are committed to providing invaluable support and solutions to individuals, families, and businesses, helping them navigate life's challenges and make informed decisions.</p>
                     <a href="#" className="read-more custome"><span>Read More</span><i className="bi bi-arrow-right"></i></a>
                     </div>
 
@@ -91,32 +47,32 @@ function Welcome() {
                         <div className="col-md-6" data-aos="fade-up" data-aos-delay="200">
                         <div className="icon-box">
                             <i className="bi bi-buildings"></i>
-                            <h3>Eius provident</h3>
-                            <p>Magni repellendus vel ullam hic officia accusantium ipsa dolor omnis dolor voluptatem</p>
+                            <h3>Experienced Professionals</h3>
+                            <p>Our team consists of highly qualified and experienced consultants who specialize in various fields, ensuring that you receive the best guidance and insights.</p>
                         </div>
                         </div> 
 
                         <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
                         <div className="icon-box">
                             <i className="bi bi-clipboard-pulse"></i>
-                            <h3>Rerum aperiam</h3>
-                            <p>Autem saepe animi et aut aspernatur culpa facere. Rerum saepe rerum voluptates quia</p>
+                            <h3>Personalized Solutions</h3>
+                            <p>We understand that every situation is unique. That's why we take the time to listen and customize our services to meet your specific needs.</p>
                         </div>
                         </div> 
 
                         <div className="col-md-6" data-aos="fade-up" data-aos-delay="400">
                         <div className="icon-box">
                             <i className="bi bi-command"></i>
-                            <h3>Veniam omnis</h3>
-                            <p>Omnis perferendis molestias culpa sed. Recusandae quas possimus. Quod consequatur corrupti</p>
+                            <h3>Confidentiality</h3>
+                            <p>Your privacy is of utmost importance to us. We maintain strict confidentiality to create a safe and secure environment for our clients.</p>
                         </div>
                         </div>
 
                         <div className="col-md-6" data-aos="fade-up" data-aos-delay="500">
                         <div className="icon-box">
                             <i className="bi bi-graph-up-arrow"></i>
-                            <h3>Delares sapiente</h3>
-                            <p>Sint et dolor voluptas minus possimus nostrum. Reiciendis commodi eligendi omnis quideme lorenda</p>
+                            <h3>Comprehensive Services</h3>
+                            <p>Whether you need personal counseling, family guidance, or business consultation, we offer a wide range of services to address diverse challenges.</p>
                         </div>
                         </div>
 
@@ -139,7 +95,7 @@ function Welcome() {
                 <div className="col-xl-10">
                 <div className="text-center">
                     <h3>Call To Action</h3>
-                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p>We are conveniently located in the heart of Colombo, and our dedicated team is here to assist you. Feel free to get in touch with us to schedule an appointment or inquire about our services.</p>
                     <a className="cta-btn custome" href="#">Call To Action</a>
                 </div>
                 </div>
@@ -155,7 +111,7 @@ function Welcome() {
 
                 <div className="container section-title" data-aos="fade-up">
                 <h2>Contact</h2>
-                <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+                <p>Call to contact us to inquire about our services</p>
                 </div>
 
                 <div className="container" data-aos="fade-up" data-aos-delay="100">
@@ -169,8 +125,8 @@ function Welcome() {
                         <div className="info-item" data-aos="fade" data-aos-delay="200">
                             <i className="bi bi-geo-alt"></i>
                             <h3>Address</h3>
-                            <p>A108 Adam Street</p>
-                            <p>New York, NY 535022</p>
+                            <p>No : 35</p>
+                            <p>Slave Island, Colombo 03</p>
                         </div>
                         </div>
 
@@ -178,8 +134,8 @@ function Welcome() {
                         <div className="info-item" data-aos="fade" data-aos-delay="300">
                             <i className="bi bi-telephone"></i>
                             <h3>Call Us</h3>
-                            <p>+1 5589 55488 55</p>
-                            <p>+1 6678 254445 41</p>
+                            <p>011 425 1587</p>
+                            <p>077 025 0125</p>
                         </div>
                         </div>
 
@@ -187,8 +143,8 @@ function Welcome() {
                         <div className="info-item" data-aos="fade" data-aos-delay="400">
                             <i className="bi bi-envelope"></i>
                             <h3>Email Us</h3>
-                            <p>info@example.com</p>
-                            <p>contact@example.com</p>
+                            <p>JobsCons@jobs.com</p>
+                            <p>contact@jobs.com</p>
                         </div>
                         </div>
 
@@ -197,7 +153,7 @@ function Welcome() {
                             <i className="bi bi-clock"></i>
                             <h3>Open Hours</h3>
                             <p>Monday - Friday</p>
-                            <p>9:00AM - 05:00PM</p>
+                            <p>08:00AM - 05:00PM</p>
                         </div>
                         </div>
 

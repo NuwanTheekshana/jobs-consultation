@@ -4,6 +4,10 @@ import Login from './Auth/Login';
 import Registration from './Auth/Register';
 
 import Home from './Home';
+import ConsultationRequest from './ConsultationRequest';
+import AppointmentList from './AppointmentList';
+import FindConsultant from './FindConsultant';
+
 import Jobpannel from './Job_Pannel/JobPannel';
 import Country from './Job_Pannel/Country';
 import JobTypes from './Job_Pannel/JobTypes';
@@ -11,6 +15,9 @@ import Consultant from './Job_Pannel/Users/Consultant';
 import JobSeeker from './Job_Pannel/Users/JobSeeker';
 import AllUser from './Job_Pannel/Users/AllUser';
 import TimeShadule from './Job_Pannel/Consultant/TimeShadule';
+import ConsultantAppointments from './Job_Pannel/Consultant/ConsultantAppointment';
+
+import AppointmentReport from './Job_Pannel/Report/AppointmentReport';
 
 
 import PrivateRoute from './PrivateRoute'; 
@@ -27,9 +34,13 @@ function App() {
         <Route exact path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />
-
+        
         {/* Use PrivateRoute for the protected route */}
         <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+        <Route path="/appointment/consultationrequest" element={<PrivateRoute element={<ConsultationRequest />} />} />
+        <Route path="/appointment/AppointmentList" element={<PrivateRoute element={<AppointmentList />} />} />
+        <Route path="/appointment/FindConsultant" element={<PrivateRoute element={<FindConsultant />} />} />
+
         <Route path="/jobpannel" element={<PrivateRoute element={<Jobpannel />} />} />
         <Route path="/jobpannel/country" element={<PrivateRoute element={<Country />} />} />
         <Route path="/jobpannel/job-categories" element={<PrivateRoute element={<JobTypes />} />} />
@@ -39,6 +50,11 @@ function App() {
 
         {/* Consultant */}
         <Route path="/jobpannel/timeshadule" element={<PrivateRoute element={<TimeShadule />} />} />
+        <Route path="/jobpannel/consultantAppointments" element={<PrivateRoute element={<ConsultantAppointments />} />} />
+
+        <Route path="/jobpannel/AppointmentReport" element={<PrivateRoute element={<AppointmentReport />} />} />
+
+        
       </Routes>
     </Router>
   );

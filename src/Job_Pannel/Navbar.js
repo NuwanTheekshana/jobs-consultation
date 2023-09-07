@@ -6,6 +6,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 import 'jquery/dist/jquery.min.js'; 
 import 'datatables.net-bs5/js/dataTables.bootstrap5.min.js';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import Swal from 'sweetalert2';
+
 
 
 
@@ -67,14 +70,39 @@ function Navbar() {
                                     <Link to="/jobpannel/timeshadule" className="dropdown-item">
                                         Consultant Availablity
                                     </Link>
-                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
+                                    <Link to="/jobpannel/consultantAppointments" className="dropdown-item">
                                         Consultant Appointments
                                     </Link>
                                 </div>
                             </li>
                             
                 </ul>
+            
+                
                  ) : ('')}
+
+                        <ul></ul>
+                            <ul className="navbar-nav ms-auto">
+                            <li className="nav-item dropdown">
+                                <a id="navbarDropdownReports" className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Receiption
+                                </a>
+
+                                <div className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownReports">
+                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
+                                        All Appointments
+                                    </Link>
+                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
+                                        Consultant Profiles
+                                    </Link>
+                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
+                                        Job Seeker Profiles
+                                    </Link>
+                                    
+                                </div>
+                            </li>
+                            
+                        </ul>
 
                         <ul></ul>
                             <ul className="navbar-nav ms-auto">
@@ -84,14 +112,21 @@ function Navbar() {
                                 </a>
 
                                 <div className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownReports">
+                                    <Link to="/jobpannel/AppointmentReport" className="dropdown-item">
+                                        Appointment Schedule Report
+                                    </Link>
                                     <Link to="/jobpannel/timeshadule" className="dropdown-item">
-                                        Report List
+                                        Consultant List
+                                    </Link>
+                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
+                                        Job Seeker List
                                     </Link>
                                     
                                 </div>
                             </li>
                             
                         </ul>
+
 
                         <ul></ul>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">

@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import Swal from 'sweetalert2';
+
 
 function Header() {
   const navigate = useNavigate();
@@ -49,11 +52,14 @@ function Header() {
                             </a>
     
                             <div className="dropdown-menu dropdown-menu-end" aria-labelledby="addingDropdown">
-                                <Link to="/jobpannel/country" className="dropdown-item">
+                                <Link to="/appointment/consultationrequest" className="dropdown-item">
                                 Consultant Request
                                 </Link>
-                                <Link to="/jobpannel/job-categories" className="dropdown-item">
+                                <Link to="/appointment/AppointmentList" className="dropdown-item">
                                 Appointment List
+                                </Link>
+                                <Link to="/appointment/FindConsultant" className="dropdown-item">
+                                Find Consultant
                                 </Link>
                             </div>
                         </li>
@@ -89,8 +95,15 @@ function Header() {
 
           <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
+
       </div>
+      
+
     </header>
+
+
+              
+
   );
 }
 
