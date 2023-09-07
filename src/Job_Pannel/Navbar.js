@@ -21,6 +21,7 @@ function Navbar() {
 
   const token = localStorage.getItem("token");
   const UserName = localStorage.getItem("UserName");
+  const Permission = localStorage.getItem("Permission");
 
   useEffect(() => {
     if (token === null) {
@@ -48,10 +49,29 @@ function Navbar() {
                 </Link>
                 <ul></ul>
                 <ul></ul>
+                <ul>
+
+                </ul>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
                     <span className="navbar-toggler-icon"></span>
                 </button>
+                
+                {Permission == 2 ? (
+                <ul className="navbar-nav ms-auto">
+                            <li className="nav-item dropdown">
+                                <a id="navbarDropdownConsultant" className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Consultant
+                                </a>
 
+                                <div className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownConsultant">
+                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
+                                        Consultant Availablity
+                                    </Link>
+
+                                </div>
+                            </li>
+                </ul>
+                 ) : ('')}
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item dropdown">
@@ -84,8 +104,7 @@ function Navbar() {
                                 
                                 <Link to="/jobpannel/userlist" className="dropdown-item">
                                     All Users
-                                </Link>
-    
+                                </Link>   
                             </div>
                         </li>
                     </ul>
