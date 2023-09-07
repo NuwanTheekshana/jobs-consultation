@@ -82,7 +82,7 @@ function Welcome() {
                     <h3>About Us</h3>
                     <h2>Ducimus rerum libero reprehenderit cumque</h2>
                     <p>Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime. Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda incidunt voluptatem tempora deleniti soluta.</p>
-                    <a href="#" className="read-more"><span>Read More</span><i className="bi bi-arrow-right"></i></a>
+                    <a href="#" className="read-more custome"><span>Read More</span><i className="bi bi-arrow-right"></i></a>
                     </div>
 
                     <div className="col-xl-7">
@@ -140,7 +140,7 @@ function Welcome() {
                 <div className="text-center">
                     <h3>Call To Action</h3>
                     <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    <a className="cta-btn" href="#">Call To Action</a>
+                    <a className="cta-btn custome" href="#">Call To Action</a>
                 </div>
                 </div>
             </div>

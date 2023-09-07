@@ -35,22 +35,35 @@ function Header() {
   return (
     <header id="header" className="header fixed-top d-flex align-items-center">
       <div className="container-fluid d-flex align-items-center justify-content-between">
-        <a href="index.html" className="logo d-flex align-items-center me-auto me-xl-0">
+        <a href="index.html" className="logo d-flex align-items-center me-auto me-xl-0 custome">
           <img src="assets/img/logo.png" alt="" />
           <h1>eJob Consult</h1>
         </a>
         <nav id="navmenu" className="navmenu">
           <ul>
-            <li><a href="index.html#hero" className="active">Home</a></li>
-            <li><a href="index.html#about">About</a></li>
-            <li><a href="index.html#services">Services</a></li>
-            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="index.html#hero" className="active custome">Home</a></li>
+            <li><a href="index.html#about" className="custome">About</a></li>
+            <li className="nav-item dropdown">
+                            <a id="addingDropdown" className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Appointment
+                            </a>
+    
+                            <div className="dropdown-menu dropdown-menu-end" aria-labelledby="addingDropdown">
+                                <Link to="/jobpannel/country" className="dropdown-item">
+                                Consultant Request
+                                </Link>
+                                <Link to="/jobpannel/job-categories" className="dropdown-item">
+                                Appointment List
+                                </Link>
+                            </div>
+                        </li>
+            <li><a href="index.html#contact" className="custome">Contact</a></li>
 
             {token ? (
               <>
                 <li>
-                  <Link to="/jobpannel">
-                    <button className="btn btn-danger"><i className="bi bi-box-arrow-right"></i> Job Panel</button>
+                  <Link to="/jobpannel" className="dropdown-item">
+                    Job Pannel
                   </Link>
                 </li>
                 <li>

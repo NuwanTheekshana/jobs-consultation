@@ -67,11 +67,33 @@ function Navbar() {
                                     <Link to="/jobpannel/timeshadule" className="dropdown-item">
                                         Consultant Availablity
                                     </Link>
-
+                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
+                                        Consultant Appointments
+                                    </Link>
                                 </div>
                             </li>
+                            
                 </ul>
                  ) : ('')}
+
+                        <ul></ul>
+                            <ul className="navbar-nav ms-auto">
+                            <li className="nav-item dropdown">
+                                <a id="navbarDropdownReports" className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Reports
+                                </a>
+
+                                <div className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownReports">
+                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
+                                        Report List
+                                    </Link>
+                                    
+                                </div>
+                            </li>
+                            
+                        </ul>
+
+                        <ul></ul>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item dropdown">
@@ -88,7 +110,7 @@ function Navbar() {
                                 </Link>
                             </div>
                         </li>
-
+                        <ul></ul>
                         <li className="nav-item dropdown">
                             <a id="user_dataDropdown" className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Users
