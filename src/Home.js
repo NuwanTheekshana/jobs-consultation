@@ -48,7 +48,7 @@ function Home() {
             
             <div>
                 <section id="hero" className="hero">
-                <img src="assets/img/hero-bg.jpg" alt="" data-aos="fade-in" />
+                <img src="assets/img/hero-bg.jpeg" alt="" data-aos="fade-in" />
         
                 <div className="container">
                     <div className="row">

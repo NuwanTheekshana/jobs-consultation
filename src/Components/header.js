@@ -79,12 +79,12 @@ function Header() {
             ) : (
               <>
                 <li>
-                  <Link to="/login">
-                    <button className="btn btn-danger"><i className="bi bi-person-fill-lock"></i> Sign In</button>
+                  <Link to="/login" className="custome">
+                    <button className="btn btn-danger custome"><i className="bi bi-person-fill-lock"></i> Sign In</button>
                   </Link>
                 </li>
                 <li>
-                  <Link to="/register">
+                  <Link to="/register" className="custome">
                     <button className="btn btn-danger"><i className="bi bi-person-fill-add"></i> Sign Up</button>
                   </Link>
                 </li>
