@@ -231,7 +231,7 @@ window.handleDelete = (Job_Seeker_Id) => {
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>{editingJobSeeker ? 'Edit JobSeeker' : 'Add JobSeeker'} {editingJobSeeker}</Modal.Title>
+          <Modal.Title>{editingJobSeeker ? 'Edit JobSeeker' : 'Add JobSeeker'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <form>

@@ -207,7 +207,7 @@ function ConsultantRequest() {
                   <div className="col-sm-8">
                     <input type="text" className={`form-control form-control-lg ${formErrors.Username ? 'is-invalid' : ''}`} id="Username" value={UserName} disabled />
                     <input type="hidden" className={`form-control form-control-lg ${formErrors.jobseekerId ? 'is-invalid' : ''}`} id="jobseekerId" value={jobseekerId} readOnly />
-                    {formErrors.jobseekerId && <div className="invalid-feedback">{formErrors.jobseekerId}</div>}
+                    {/* {formErrors.jobseekerId && <div className="invalid-feedback">{formErrors.jobseekerId}</div>} */}
                   </div>
                 </div>
                 <div className="row mb-3">
@@ -299,9 +299,9 @@ function ConsultantRequest() {
                   </div>
                 </div>
                 <div className="row mb-3">
-                  <label htmlFor="remarks" className="col-sm-4 col-form-label h5">Remarks</label>
+                  <label htmlFor="Remarks" className="col-sm-4 col-form-label h5">Remarks</label>
                   <div className="col-sm-8">
-                  <textarea className="form-control form-control-lg" id="remarks" rows="3" name="Remarks" onChange={handleFileInputChange}></textarea>
+                  <textarea className="form-control form-control-lg" id="Remarks" rows="3" name="Remarks" onChange={handleFileInputChange}></textarea>
                   </div>
                 </div>
 
