@@ -4,9 +4,55 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import $ from 'jquery'; // jQuery
+import Swal from 'sweetalert2';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+
 
 function AppointmentReport() {
-   
+  const [formData, setFormData] = useState({
+    find_status: '',
+  });
+  const [formErrors, setFormErrors] = useState({
+    find_status: '',
+  });
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const [Report, setReport] = useState([]);
+
+  const handleSearch = async () => {
+    try {
+      const errors = {};
+      if (!formData.find_status) {
+        errors.find_status = 'Job Status is required.';
+      }
+      if (Object.keys(errors).length > 0) {
+        setFormErrors(errors);
+        Swal.fire({title: 'Warnning', text: "Something went wrong..!", icon: 'error' }).then((result) => {
+          if (result.isConfirmed) {
+            window.scrollTo({top: 0,behavior: 'smooth'});
+          }
+        });
+        return;
+      }
+      const response = await axios.get(`https://localhost:7103/api/Report/Report/AppointmentList/${formData.find_status}`);
+      setReport(response.data);
+      console.log(response.data);
+
+    } catch (error) {
+      console.error('Report Failed', error);
+    }
+  };
+
+
+
   return(
     <div>
       <Navbar />
@@ -15,23 +61,23 @@ function AppointmentReport() {
       <div className="card mt-4">
         <div className="card-body">
 
-
+            <form>
             <div className="form-group mb-2">
-                      <label for="Status" className="col-2 form-label">Status </label>
-                      <select class="form-select" >
-                      <option selected>Status</option>
+                <label htmlFor="find_status" className="col-2 form-label">Status </label>
+                    <select className={`form-control ${formErrors.find_status ? 'is-invalid' : ''}`} name="find_status" id="find_status" onChange={handleInputChange}>
+                      <option>Status</option>
                       <option value="1">Pending</option>
                       <option value="2">Accept</option>
+                      <option value="3">Reject</option>
                     </select>
-                      
-                      
-                    <label for="find_name" className="col-2 form-label">User Name</label>
-                    <input type="text" id="find_name" className="form-control col-sm-3" aria-describedby="find_name" name="find_name" />
+                    {formErrors.find_status && (<div className="invalid-feedback">{formErrors.find_status}</div>)}
                       <br></br>
                     <center>
-                    <button className="btn btn-warning"> Search</button>
+                    <button type="button" className="btn btn-warning" onClick={handleSearch}> Search</button>
                     </center>
               </div>
+            </form>
+            
           </div>
         </div>
 
@@ -40,9 +86,15 @@ function AppointmentReport() {
         <div className="card mt-4">
           <div className="card-header d-flex justify-content-between align-items-center small">
             <h4>Appointment Report</h4>
-            <Button variant="danger" size="sm">
-              Download Report
-            </Button>
+            <ReactHTMLTableToExcel
+            id="test-table-xls-button"
+            className="btn btn-danger btn-sm"
+            table="tableId"
+            filename="appointment_report"
+            sheet="report"
+            buttonText="Download Report"
+          />
+
           </div>
           <div className="card-body">
           <table id="tableId" className="table table-bordered table-striped">
@@ -57,14 +109,16 @@ function AppointmentReport() {
                 </tr>
               </thead>
               <tbody>
-              <tr>
-                <th scope="row">3</th>
-                <td>NuwanTheekshana</td>
-                <td>Namal Perera</td>
-                <td>2022-09-15</td>
-                <td>09:00:00 - 11:00:00</td>
-                <td>Accept</td>
-                </tr>
+              {Report.map((Report) => (
+                  <tr key={Report.requestId}>
+                    <td>{Report.requestId}</td>
+                    <td>{Report.jobSeeker}</td>
+                    <td>{Report.jobConsultant}</td>
+                    <td>{Report.appointmentDate}</td>
+                    <td>{Report.appintmentTimeSlot}</td>
+                    <td>{Report.status}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
