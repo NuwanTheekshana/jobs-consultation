@@ -7,7 +7,7 @@ import $ from 'jquery'; // jQuery
 import Swal from 'sweetalert2';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
-function ConsultantAppointment() {
+function AllAppointment() {
   const auth_userid = localStorage.getItem("id");
   const [showattachmentModal, setshowattachmentModal] = useState(false);
   const [viewattachment, setviewattachment] = useState(null);
@@ -17,7 +17,7 @@ function ConsultantAppointment() {
   const tableRef = useRef(null);
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://localhost:7103/api/JobRequest/JobRequest/${auth_userid}`);
+      const response = await axios.get(`https://localhost:7103/api/JobRequest/JobRequest`);
 
       if ($.fn.DataTable.isDataTable('#tableId')) {
         tableRef.current.DataTable().destroy();
@@ -48,16 +48,9 @@ function ConsultantAppointment() {
   const renderActionButtons = (data, type, row) => {
     return (
       '<center>' +
-      '<button type="button" class="btn btn-success btn-sm" onclick="window.handleAccept(' +
-      row.jobseekerRequestId +
-      ')"><i class="bi bi-pencil-square"></i> Accept</button>' +
-      '&nbsp;' +
-      '<button type="button" class="btn btn-danger btn-sm" onclick="window.handleReject(' +
-      row.jobseekerRequestId +
-      ')">Reject</button> &nbsp;' +
       '<button type="button" class="btn btn-primary btn-sm" onclick="window.handleattachment(\'' +
       row.attachment.replace(/'/g, "\\'") + // Properly escape single quotes
-      '\')">View Profile</button>' +
+      '\')"><i class="bi bi-file-earmark-pdf"></i> View Profile</button>' +
       '</center>'
     );
   };
@@ -74,37 +67,6 @@ function ConsultantAppointment() {
     setviewattachment(attachment_path);
     handleattachmentModal();
   };
-
-  window.handleAccept = async (request_id) => {
-    try {
-    const response = await axios.put(`https://localhost:7103/api/JobRequest/JobRequest/${request_id}?status=2`);
-    Swal.fire({title: 'Success', text: response.data, icon: 'success' }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.reload();
-        window.scrollTo({top: 0,behavior: 'smooth'});
-      }
-    });
-    } catch (error) {
-    console.error('Error accept request', error);
-    }
-};
-
-window.handleReject = async (request_id) => {
-  try {
-  const response = await axios.put(`https://localhost:7103/api/JobRequest/JobRequest/${request_id}?status=3`);
-  Swal.fire({title: 'Success', text: response.data, icon: 'success' }).then((result) => {
-    if (result.isConfirmed) {
-      window.location.reload();
-      window.scrollTo({top: 0,behavior: 'smooth'});
-    }
-  });
-  } catch (error) {
-  console.error('Error reject request', error);
-  }
-};
-
-
-  
   
    
   return(
@@ -168,4 +130,4 @@ window.handleReject = async (request_id) => {
 
 }
 
-export default ConsultantAppointment;
+export default AllAppointment;

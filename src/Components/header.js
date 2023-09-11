@@ -6,6 +6,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import Swal from 'sweetalert2';
 
 
+
 function Header() {
   const navigate = useNavigate();
 
@@ -17,6 +18,7 @@ function Header() {
   }, []);
 
   const token = localStorage.getItem("token");
+  const Permission = localStorage.getItem("Permission");
 
   useEffect(() => {
     if (token === null) {
@@ -38,44 +40,66 @@ function Header() {
   return (
     <header id="header" className="header fixed-top d-flex align-items-center">
       <div className="container-fluid d-flex align-items-center justify-content-between">
-        <a href="index.html" className="logo d-flex align-items-center me-auto me-xl-0 custome">
-          <img src="assets/img/logo.png" alt="" />
-          <h1>eJob Consult</h1>
-        </a>
+        <Link to="/" className="logo d-flex align-items-center me-auto me-xl-0 custome">
+          <img src="../assets/img/logo/logo.jpg" alt="" width="250" height="200"/>
+        </Link>
         <nav id="navmenu" className="navmenu">
           <ul>
-            <li><a href="index.html#hero" className="active custome">Home</a></li>
-            <li><a href="index.html#about" className="custome">About</a></li>
+
+            <li>
+              <Link to="/" className="active custome">
+                  Home
+              </Link>
+            </li>
+            <li>
+                <Link to="/about" className="custome">
+                  About
+                </Link>
+            </li>
             <li className="nav-item dropdown">
                             <a id="addingDropdown" className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Appointment
                             </a>
     
                             <div className="dropdown-menu dropdown-menu-end" aria-labelledby="addingDropdown">
-                                <Link to="/appointment/consultationrequest" className="dropdown-item">
-                                Consultant Request
-                                </Link>
-                                <Link to="/appointment/AppointmentList" className="dropdown-item">
-                                Appointment List
-                                </Link>
+                            {Permission == 3 ? (
+                                <>
+                                  <Link to="/appointment/consultationrequest" className="dropdown-item">
+                                    Consultant Request
+                                  </Link>
+                                  <Link to="/appointment/AppointmentList" className="dropdown-item">
+                                    Appointment List
+                                  </Link>
+                                </>
+                              ) : null}
+
                                 <Link to="/appointment/FindConsultant" className="dropdown-item">
                                 Find Consultant
                                 </Link>
                             </div>
                         </li>
-            <li><a href="index.html#contact" className="custome">Contact</a></li>
+            <li>
+            <Link to="/contact" className="custome">
+                  Contact
+            </Link>
+            </li>
 
             {token ? (
               <>
+              {Permission != 3 ? (
+                <>
                 <li>
                   <Link to="/jobpannel" className="dropdown-item">
                     Job Pannel
                   </Link>
                 </li>
+                </>
+                ) : null}
                 <li>
                   <button className="btn btn-danger" onClick={logout}><i className="bi bi-box-arrow-right"></i> Logout</button>
                 </li>
               </>
+
             ) : (
               <>
                 <li>

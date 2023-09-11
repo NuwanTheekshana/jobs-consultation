@@ -4,6 +4,8 @@ import Login from './Auth/Login';
 import Registration from './Auth/Register';
 
 import Home from './Home';
+import About from './About';
+import Contact from './Contact';
 import ConsultationRequest from './ConsultationRequest';
 import AppointmentList from './AppointmentList';
 import FindConsultant from './FindConsultant';
@@ -14,8 +16,16 @@ import JobTypes from './Job_Pannel/JobTypes';
 import Consultant from './Job_Pannel/Users/Consultant';
 import JobSeeker from './Job_Pannel/Users/JobSeeker';
 import AllUser from './Job_Pannel/Users/AllUser';
+
+
+import ConsultantProfile from './Job_Pannel/Consultant/ConsultantProfile';
 import TimeShadule from './Job_Pannel/Consultant/TimeShadule';
 import ConsultantAppointments from './Job_Pannel/Consultant/ConsultantAppointment';
+
+import AllAppointment from './Job_Pannel/Receiption/AllAppointment';
+import ConsultantTimeShadule from './Job_Pannel/Receiption/ConsultantsTimeShadules';
+import JobSeekerList from './Job_Pannel/Receiption/JobSeekerList';
+
 
 import AppointmentReport from './Job_Pannel/Report/AppointmentReport';
 
@@ -30,8 +40,10 @@ function App() {
       <Routes>
       {/* error page */}
       <Route path="*" element={<Page404 />} />
-
+      
         <Route exact path="/" element={<Welcome />} />
+        <Route exact path="/about" element={<About />} />
+        <Route exact path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />
         
@@ -48,9 +60,15 @@ function App() {
         <Route path="/jobpannel/jobseekerlist" element={<PrivateRoute element={<JobSeeker />} />} />
         <Route path="/jobpannel/userlist" element={<PrivateRoute element={<AllUser />} />} />
 
+
+        <Route path="/jobpannel/Receiption/AllAppointment" element={<PrivateRoute element={<AllAppointment />} />} />
+        <Route path="/jobpannel/Receiption/ConsultantTimeShadule" element={<PrivateRoute element={<ConsultantTimeShadule />} />} />
+        <Route path="/jobpannel/Receiption/JobSeekerList" element={<PrivateRoute element={<JobSeekerList />} />} />
+        
         {/* Consultant */}
         <Route path="/jobpannel/timeshadule" element={<PrivateRoute element={<TimeShadule />} />} />
         <Route path="/jobpannel/consultantAppointments" element={<PrivateRoute element={<ConsultantAppointments />} />} />
+        <Route path="/jobpannel/ConsultantProfile" element={<PrivateRoute element={<ConsultantProfile />} />} />
 
         <Route path="/jobpannel/AppointmentReport" element={<PrivateRoute element={<AppointmentReport />} />} />
 

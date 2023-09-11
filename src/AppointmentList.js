@@ -3,59 +3,33 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../src/Components/header';
 import Footer from '../src/Components/footer';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 function AppointmentList() {
 
+const Userid = localStorage.getItem("id");
 const UserName = localStorage.getItem("UserName");
 const Email = localStorage.getItem("Email");
-const [formData, setFormData] = useState({
-    country : '',
-    consultant : '',
-    consultantAvailability : '',
-  });
-const [formErrors, setFormErrors] = useState({
-    country : '',
-    consultant : '',
-    consultantAvailability : '',
-  });
+
+const [AppointmentList, setAppointmentList] = useState([]);
+
+useEffect(() => {
+  fetchData();
+}, []);
 
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
+const fetchData = async () => {
+  try {
+    const errors = {};
+    const response = await axios.get(`https://localhost:7103/api/JobRequest/JobRequest/GetJobSeekerRequest/${Userid}`);
+    setAppointmentList(response.data);
+    console.log(response.data);
 
-  const handleRequest = async () => {
-    try {
-      const errors = {};
-      if (!formData.country) {
-        errors.country = 'Country is required.';
-      }
-      if (!formData.consultant) {
-        errors.consultant = 'Consultant is required.';
-      }
-      if (!formData.consultantAvailability) {
-        errors.consultantAvailability = 'Consultant avaiability is required.';
-      }
-      if (Object.keys(errors).length > 0) {
-        setFormErrors(errors);
-        Swal.fire({icon: 'error',
-                  title: 'Oops...',   
-                  text: 'Something went wrong!'});
-        return;
-      }
-
-      Swal.fire('Success', 'Request send successfully..!', 'success');
-      } catch (error) {
-        console.error('User added failed', error);
-      }
-
-  };
-
+  } catch (error) {
+    console.error('Data fatch failed', error);
+  }
+};
 
 
 const showAlert = () => {
@@ -104,37 +78,35 @@ const showAlert = () => {
                             <tr>
                             <th scope="col">Job Request Id</th>
                             <th scope="col">Consultant Name</th>
-                            <th scope="col">Job Category</th>
-                            <th scope="col">Country</th>
-                            <th scope="col">Date</th>
+                            <th scope="col">JobSeeker Name</th>
+                            <th scope="col">Request Date</th>
                             <th scope="col">Time Slot</th>
                             <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                            <th scope="row">3</th>
-                            <td>Namal Perera</td>
-                            <td>Software Engineer</td>
-                            <td>Australia</td>
-                            <td>2022-09-15</td>
-                            <td>09:00:00 - 11:00:00</td>
+                        {AppointmentList.map((Appointments) => (
+                          <tr key={Appointments.jobseekerRequestId}>
+                            <td>{Appointments.jobseekerRequestId}</td>
+                            <td>{Appointments.consultantUserName}</td>
+                            <td>{Appointments.jobSeekerUserName}</td>
+                            <td>{Appointments.request_date}</td>
+                            <td>{Appointments.time_slot}</td>
                             <td>
-                            <button type="button" className="btn btn-danger">Pending</button>
+                              {Appointments.job_Status === "Pending" ? (
+                                <button type="button" className="btn btn-warning">{Appointments.job_Status}</button>
+                              ) : Appointments.job_Status === "Accepted" ? (
+                                <button type="button" className="btn btn-success">{Appointments.job_Status}</button>
+                              ) : Appointments.job_Status === "Rejected" ? (
+                                <button type="button" className="btn btn-danger">{Appointments.job_Status}</button>
+                              ) : (
+                                ""
+                              )}
                             </td>
-                            </tr>
-                            <tr>
-                            <th scope="row">4</th>
-                            <td>Kasun Sadaruwan</td>
-                            <td>Data Science</td>
-                            <td>New Zealand</td>
-                            <td>2022-09-16</td>
-                            <td>16:00:00 - 18:00:00</td>
-                            <td>
-                                <button type="button" className="btn btn-success">Accepted</button>
-                            </td>
-                            </tr>
-                        </tbody>
+                          </tr>
+                        ))}
+                      </tbody>
+
                         </table>
                     </div>
                     </div>

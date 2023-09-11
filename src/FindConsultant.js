@@ -3,8 +3,32 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../src/Components/header';
 import Footer from '../src/Components/footer';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 function FindConsultant() {
+
+  const [ConsultantList, setConsultantList] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  
+  
+  const fetchData = async () => {
+    try {
+      const errors = {};
+      const response = await axios.get(`https://localhost:7103/api/Consultant/Consultant`);
+      setConsultantList(response.data);
+      console.log(response.data);
+  
+    } catch (error) {
+      console.error('Data fatch failed', error);
+    }
+  };
+
+
+
 
   return (
     <div>
@@ -32,36 +56,48 @@ function FindConsultant() {
 
                 </section>
 
-                <div className="container mt-5 mb-5">
-                <div className="row justify-content-center">
-                <div className="card">
-                    <div className="card-body">
-                        {/* <h5 className="card-title mb-5"><b><i class="bi bi-file-earmark-person-fill"></i> Consaltation Appointment List</b></h5>
-                        */}
-                        <div class="container">
-                        <h2>Consaltant List</h2>
-                        <input type="text" id="searchInput" class="form-control mb-3 form-control-lg" placeholder="Search" />
-                        <table class="table table-bordered table-striped table-lg">
-                            <thead>
-                            <tr>
-                            <th scope="col">Consultant Name</th>
-                            <th scope="col">Job Category</th>
-                            <th scope="col">Country</th>
-                            <th scope="col">Status</th>
-                            </tr>
-                            </thead>
-                            <tbody id="tableBody">
+                
+    <section id="team" className="team">
+      <div className="container section-title" data-aos="fade-up">
+        <h2>Consultant Team</h2>
+        <p>Expertise. Collaboration. Results.</p>
+      </div>
 
-                            </tbody>
-                        </table>
-                        </div>
+      <div className="container">
 
-                    
-                    </div>
-                    </div>
-                </div>
-                </div>
+        <div className="row gy-5">
 
+        
+
+        {ConsultantList.map((ConsultantLists) => (
+               <div className="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
+               <div className="member-img">
+                 {/* <img src={`https://localhost:7103/${ConsultantLists.image_Path} || "../assets/img/nonimg.webp"`} className="img-fluid" alt="" />
+                 <img src={`https://localhost:7103/${ConsultantLists.image_Path} || "../assets/img/nonimg.webp"`} className="img-fluid" alt="" /> */}
+                {ConsultantLists.image_Path == "" ? (
+                  <img src="../assets/img/nonimg.webp" className="img-fluid" alt="" />
+                ): 
+                <img src={`https://localhost:7103/${ConsultantLists.image_Path}`} className="img-fluid" alt="" />
+                }
+               </div>
+               <div className="member-info text-center">
+                 <h4>{ConsultantLists.userName}</h4>
+                 <span>{ConsultantLists.job_Category}</span>
+                 <span>{ConsultantLists.country}</span>
+                 <p>{ConsultantLists.description}</p>
+               </div>
+             </div>         
+        ))}
+
+         
+
+        
+
+        </div>
+
+      </div>
+
+    </section>
 
                    
 

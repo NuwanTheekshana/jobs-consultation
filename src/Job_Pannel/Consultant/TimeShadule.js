@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import $ from 'jquery'; // jQuery
+import Swal from 'sweetalert2';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 function TimeShadule() {
     const auth_userid = localStorage.getItem("id");
@@ -107,9 +109,13 @@ window.handleDelete = (Con_Time_Id) => {
   const handleDeleteTimeShadule = async () => {
     try {
     await axios.delete(`https://localhost:7103/api/ConsultantTime/ConsultantTime/${deletingTimeShadule}`);
-    console.log('User deleted successfully');
+    Swal.fire({title: 'Success', text: 'User deleted successfully', icon: 'success' }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.reload();
+        window.scrollTo({top: 0,behavior: 'smooth'});
+      }
+    });
     handleCloseDeleteModal();
-    window.location.reload();
     } catch (error) {
     console.error('Error deleting time slot', error);
     }
@@ -148,6 +154,12 @@ window.handleDelete = (Con_Time_Id) => {
       } 
     
       if (Object.keys(errors).length > 0) {
+        Swal.fire({title: 'Warning', text: 'Something went wrong..!', icon: 'error' }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+            window.scrollTo({top: 0,behavior: 'smooth'});
+          }
+        });
         setFormErrors(errors);
         return;
       }
@@ -159,11 +171,21 @@ window.handleDelete = (Con_Time_Id) => {
         console.log(formData);
         await axios.post('https://localhost:7103/api/ConsultantTime/ConsultantTime', formData);
       }
-      console.log('New time slot added successfully');
+      Swal.fire({title: 'Success', text: 'New time slot added successfully', icon: 'success' }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+          window.scrollTo({top: 0,behavior: 'smooth'});
+        }
+      });
       handleCloseModal();
-      window.location.reload();
     } catch (error) {
       console.error('New time slot failed', error);
+      Swal.fire({title: 'Warning', text: 'New time slot failed', icon: 'error' }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+          window.scrollTo({top: 0,behavior: 'smooth'});
+        }
+      });
     }
   };
 
@@ -171,13 +193,16 @@ window.handleDelete = (Con_Time_Id) => {
   return(
     <div>
       <Navbar />
+      <br></br>
+        <br></br>
       <div className="container px-4">
         <div className="card mt-4">
           <div className="card-header d-flex justify-content-between align-items-center small">
             <h4>Consultant available times</h4>
-            <Button variant="danger" size="sm" onClick={handleShowModal}>
-              Add a new time slot
+            <Button variant="primary" size="sm" onClick={handleShowModal}>
+            <i class="bi bi-file-earmark-medical"></i> Add a new time slot
             </Button>
+            <ReactHTMLTableToExcel id="test-table-xls-button" className="btn btn-danger btn-sm" table="tableId" filename="TimeShadule_report" sheet="report" buttonText="Download Report"/>
           </div>
           <div className="card-body">
           <table id="tableId" className="table table-bordered table-striped">

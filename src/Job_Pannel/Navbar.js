@@ -10,8 +10,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import Swal from 'sweetalert2';
 
 
-
-
 function Navbar() {
   const navigate = useNavigate();
 
@@ -44,7 +42,7 @@ function Navbar() {
   }
 
   return (
-    
+ 
     <nav className="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div className="container">
                 <Link to="/jobpannel" className="navbar-brand">
@@ -67,6 +65,9 @@ function Navbar() {
                                 </a>
 
                                 <div className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownConsultant">
+                                    <Link to="/jobpannel/ConsultantProfile" className="dropdown-item">
+                                        Consultant Profile
+                                    </Link>
                                     <Link to="/jobpannel/timeshadule" className="dropdown-item">
                                         Consultant Availablity
                                     </Link>
@@ -81,7 +82,9 @@ function Navbar() {
                 
                  ) : ('')}
 
+                
                         <ul></ul>
+                        {Permission == 4 ? (
                             <ul className="navbar-nav ms-auto">
                             <li className="nav-item dropdown">
                                 <a id="navbarDropdownReports" className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -89,22 +92,24 @@ function Navbar() {
                                 </a>
 
                                 <div className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownReports">
-                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
+                                    <Link to="/jobpannel/Receiption/AllAppointment" className="dropdown-item">
                                         All Appointments
                                     </Link>
-                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
-                                        Consultant Profiles
+                                    <Link to="/jobpannel/Receiption/ConsultantTimeShadule" className="dropdown-item">
+                                        Consultant Time Shadule
                                     </Link>
-                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
-                                        Job Seeker Profiles
+                                    <Link to="/jobpannel/Receiption/JobSeekerList" className="dropdown-item">
+                                        Job Seeker List
                                     </Link>
-                                    
                                 </div>
                             </li>
                             
                         </ul>
+                       ) : ('')}
 
                         <ul></ul>
+
+                        {Permission == 4 || Permission == 1  ? (
                             <ul className="navbar-nav ms-auto">
                             <li className="nav-item dropdown">
                                 <a id="navbarDropdownReports" className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -115,21 +120,18 @@ function Navbar() {
                                     <Link to="/jobpannel/AppointmentReport" className="dropdown-item">
                                         Appointment Schedule Report
                                     </Link>
-                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
-                                        Consultant List
-                                    </Link>
-                                    <Link to="/jobpannel/timeshadule" className="dropdown-item">
-                                        Job Seeker List
-                                    </Link>
                                     
                                 </div>
                             </li>
                             
                         </ul>
-
+                     ) : ('')}
 
                         <ul></ul>
+
+                        
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                {Permission == 1  ? (
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item dropdown">
                             <a id="addingDropdown" className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -165,7 +167,8 @@ function Navbar() {
                             </div>
                         </li>
                     </ul>
-
+                    ) : ('')}
+                    
                     <ul className="navbar-nav ms-auto">
                             <li className="nav-item dropdown">
                                 <a id="navbarDropdown" className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -187,6 +190,8 @@ function Navbar() {
 
             </div>
         </nav>
+
+        
   );
 }
 

@@ -1,94 +1,119 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-    const [Email, setEmail] = useState('');
-    const [Password, setPassword] = useState('');
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
 
-    const navigate = useNavigate();
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
 
-    useEffect(() => {
-        const storedToken = localStorage.getItem("token");
-        if (storedToken === null) {
-          navigate('/login');
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    const data = {
+      email: Email,
+      password: Password,
+    };
+
+    const url = 'https://localhost:7103/api/Login/login';
+
+    axios
+      .post(url, data)
+      .then((result) => {
+        const { token } = result.data;
+        console.log(result.data);
+        if (token) {
+          localStorage.setItem('token', token);
+          localStorage.setItem('id', result.data.id);
+          localStorage.setItem('UserName', result.data.userName);
+          localStorage.setItem('Email', result.data.email);
+          localStorage.setItem('Permission', result.data.permission);
+          localStorage.setItem('Status', result.data.status);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+          navigate('/home');
         } else {
-            navigate('/home');
+          alert('Login failed. No token received.');
         }
-      }, [navigate]);
+      })
+      .catch((error) => {
+        alert('Login failed. Please check your credentials.');
+      });
+  };
 
-    const handleEmailChange = (value) => {
-        setEmail(value);
-    };
+  return (
+    <div className="background-image-container">
+      <div className="container h-100">
+        <div className="row h-100 justify-content-center align-items-center">
+          <div className="col-md-6">
+            <div className="card">
+              <div className="card-body">
+                <h2 className="text-center mb-4">Log In</h2>
+                <form onSubmit={handleLogin}>
+                  <div className="mb-3">
+                    <label htmlFor="email" className="form-label">
+                      Email address
+                    </label>
+                    <input type="email"
+                      className="form-control"
+                      id="email"
+                      placeholder="Enter email"
+                      required
+                      value={Email}
+                      onChange={handleEmailChange}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="password" className="form-label">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      placeholder="Password"
+                      required
+                      value={Password}
+                      onChange={handlePasswordChange}
+                    />
+                  </div>
+                  <div className="mb-3 form-check">
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="remember"
+                    />
+                    <label className="form-check-label" htmlFor="remember">
+                      Remember me
+                    </label>
+                  </div>
+                  <div className="text-center">
+                    <button type="submit" className="btn btn-primary">
+                    <i className="bi bi-person-fill-lock"></i> Log In
+                    </button>
+                  </div>
+                </form>
+                <div className="mt-3 text-center mt-4">
 
-    const handlePasswordChange = (value) => {
-        setPassword(value);
-    };
-
-    const handleLogin = () => {
-        const data = {
-            email: Email,
-            password: Password
-        };
-
-        const url = 'https://localhost:7103/api/Login/login';
-        
-        axios.post(url, data)
-            .then((result) => {
-                const { token } = result.data;
-                console.log(result.data);
-                if (token) {
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('id', result.data.id)
-                    localStorage.setItem('UserName', result.data.userName)
-                    localStorage.setItem('Email', result.data.email)
-                    localStorage.setItem('Permission', result.data.permission)
-                    localStorage.setItem('Status', result.data.status)
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                    
-                    navigate('/home');
-                } else {
-                    alert('Login failed. No token received.');
-                }
-            })
-            .catch((error) => {
-                alert('Login failed. Please check your credentials.');
-            });
-    };
-
-
-
-   return <div>
-     <div className="container py-5">
-                <div className="row justify-content-center">
-                    <div className="col-md-6">
-                        <div className="card">
-                            <div className="card-header">
-                                <h4>User Login Page</h4>
-                            </div>
-                            <div className="card-body">
-                  
-                                    <div className="form-group mb-3">
-                                        <label>Email</label>
-                                        <input type="email" name="Email" onChange={(e) => handleEmailChange(e.target.value)}  className="form-control" />
-                                    </div>
-
-                                    <div className="form-group mb-3">
-                                        <label>Password</label>
-                                        <input type="password" name="Password" onChange={(e) => handlePasswordChange(e.target.value)}  className="form-control"/>
-                                    </div>
-
-                                    <div className="form-group mb-3">
-                                        <button type="submit" onClick={() => handleLogin()} className="btn btn-primary">Login</button>
-                                    </div>
-                                
-                            </div>
-                        </div>
-                    </div>
+                  <Link to="/register" className="custome">
+                    Sign Up
+                  </Link>
                 </div>
+              </div>
             </div>
-   </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Login;

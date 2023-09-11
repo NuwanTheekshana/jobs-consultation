@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import $ from 'jquery'; // jQuery
+import Swal from 'sweetalert2';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 function JobSeeker() {
   const [showModal, setShowModal] = useState(false);
@@ -11,6 +13,7 @@ function JobSeeker() {
   const [formData, setFormData] = useState({
     FName: '',
     LName: '',
+    UserName: '',
     NIC: '',
     DOB: '',
     Email: '',
@@ -21,6 +24,7 @@ function JobSeeker() {
   const [formErrors, setFormErrors] = useState({
     FName: '',
     LName: '',
+    UserName: '',
     NIC: '',
     DOB: '',
     Email: '',
@@ -35,6 +39,7 @@ function JobSeeker() {
     setFormData({
         FName: '',
         LName: '',
+        UserName: '',
         NIC: '',
         DOB: '',
         Email: '',
@@ -45,6 +50,7 @@ function JobSeeker() {
     setFormErrors({
         FName: '',
         LName: '',
+        UserName: '',
         NIC: '',
         DOB: '',
         Email: '',
@@ -146,11 +152,24 @@ window.handleDelete = (Job_Seeker_Id) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === 'FName' || name === 'LName') {
+      const firstName = formData.FName || '';
+      const lastName = formData.LName || '';
+      const userName = `${firstName.toLowerCase()}${lastName.toLowerCase()}`;
+      
+      setFormData({
+        ...formData,
+        UserName: userName,
+        [name]: value,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
+  
 
 
   const isValidEmail = (email) => {
@@ -160,6 +179,7 @@ window.handleDelete = (Job_Seeker_Id) => {
 
   const handleAddUser = async () => {
     try {
+
       const errors = {};
       if (!formData.FName) {
         errors.FName = 'First name is required.';
@@ -180,6 +200,11 @@ window.handleDelete = (Job_Seeker_Id) => {
       }
       if (Object.keys(errors).length > 0) {
         setFormErrors(errors);
+        Swal.fire({title: 'Warning', text: 'Something went wrong..!', icon: 'error' }).then((result) => {
+          if (result.isConfirmed) {
+            window.scrollTo({top: 0,behavior: 'smooth'});
+          }
+        });
         return;
       }
 
@@ -188,11 +213,20 @@ window.handleDelete = (Job_Seeker_Id) => {
       } else {
         await axios.post('https://localhost:7103/api/Registration/registration', formData);
       }
-      console.log('User added successfully');
+      Swal.fire({title: 'Success', text: '', icon: 'success' }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+          window.scrollTo({top: 0,behavior: 'smooth'});
+        }
+      });
       handleCloseModal();
-      window.location.reload();
     } catch (error) {
-      console.error('User added failed', error);
+      Swal.fire({title: 'Warning', text: 'Something went wrong..!', icon: 'error' }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+          window.scrollTo({top: 0,behavior: 'smooth'});
+        }
+      });
     }
   };
 
@@ -200,14 +234,16 @@ window.handleDelete = (Job_Seeker_Id) => {
   return(
     <div>
       <Navbar />
-       
+      <br></br>
+        <br></br>
       <div className="container px-4">
         <div className="card mt-4">
           <div className="card-header d-flex justify-content-between align-items-center small">
             <h4>All JobSeeker List</h4>
-            <Button variant="danger" size="sm" onClick={handleShowModal}>
-              Add Job Seeker
+            <Button variant="primary" size="sm" onClick={handleShowModal}>
+            <i class="bi bi-person-add"></i> Add Job Seeker
             </Button>
+            <ReactHTMLTableToExcel id="test-table-xls-button" className="btn btn-danger btn-sm" table="tableId" filename="JobSeeker_report" sheet="report" buttonText="Download Report"/>
           </div>
           <div className="card-body">
           <table id="tableId" className="table table-bordered table-striped">

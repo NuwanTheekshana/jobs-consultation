@@ -1,9 +1,19 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../src/Components/header';
 import Footer from '../src/Components/footer';
 
+
 function Welcome() {
+    const Permission = localStorage.getItem("Permission");
+    const targetDivRef = useRef(null);
+    const scrollToDiv = () => {
+        if (targetDivRef.current) {
+        targetDivRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+
   return (
     <div>
             <Header />
@@ -20,7 +30,19 @@ function Welcome() {
                     </div>
 
                         <div className="col-lg-5 mt-2" data-aos="fade-up" data-aos-delay="300">
+
+                            <div className="col-lg-5 mt-2" data-aos="fade-up" data-aos-delay="300">
+                        {Permission != 3 ? ( 
+                            <Link to="/login">
+                                <button className='btn btn-danger btn-block' type='button'> <i className="bi bi-send"></i> Consultation Request</button>
+                            </Link>
+                        ) : 
+                            <Link to="/appointment/consultationrequest">
                             <button className='btn btn-danger btn-block' type='button'> <i className="bi bi-send"></i> Consultation Request</button>
+                            </Link>
+                        
+                        }    
+                        </div>
                         </div>
 
                     </div>

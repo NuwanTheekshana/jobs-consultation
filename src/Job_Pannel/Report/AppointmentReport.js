@@ -56,6 +56,8 @@ function AppointmentReport() {
   return(
     <div>
       <Navbar />
+      <br></br>
+        <br></br>
       <div className="container px-4">
 
       <div className="card mt-4">
@@ -63,9 +65,9 @@ function AppointmentReport() {
 
             <form>
             <div className="form-group mb-2">
-                <label htmlFor="find_status" className="col-2 form-label">Status </label>
+                <label htmlFor="find_status" className="col-2 form-label"><b>Job Status</b> </label>
                     <select className={`form-control ${formErrors.find_status ? 'is-invalid' : ''}`} name="find_status" id="find_status" onChange={handleInputChange}>
-                      <option>Status</option>
+                      <option>Select a Status</option>
                       <option value="1">Pending</option>
                       <option value="2">Accept</option>
                       <option value="3">Reject</option>

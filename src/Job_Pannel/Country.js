@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import $ from 'jquery'; // jQuery
+import Swal from 'sweetalert2';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 function Country() {
   const [showModal, setShowModal] = useState(false);
@@ -104,6 +106,12 @@ const renderActionButtons = (data, type, row) => {
     }
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
+      Swal.fire({title: 'Warning', text: 'Something went wrong..!', icon: 'error' }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+          window.scrollTo({top: 0,behavior: 'smooth'});
+        }
+      });
       return;
     }
     
@@ -112,11 +120,21 @@ const renderActionButtons = (data, type, row) => {
     } else {
       await axios.post('https://localhost:7103/api/country/country', formData);
     }
-    console.log('Country added/updated successfully');
+    Swal.fire({title: 'Success', text: '', icon: 'success' }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.reload();
+        window.scrollTo({top: 0,behavior: 'smooth'});
+      }
+    });
     handleCloseModal();
-    window.location.reload();
+    
   } catch (error) {
-    console.error('Error adding/updating country', error);
+    Swal.fire({title: 'Warning', text: 'Something went wrong..!', icon: 'error' }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.reload();
+        window.scrollTo({top: 0,behavior: 'smooth'});
+      }
+    });
   }
 }
 
@@ -151,14 +169,17 @@ const handleDeleteCountry = async () => {
   return (
     <div>
       <Navbar />
-      <br />
+      <br></br>
+        <br></br>
       <div className="container px-4">
         <div className="card mt-4">
           <div className="card-header d-flex justify-content-between align-items-center small">
             <h4>Country List</h4>
-            <Button variant="danger" size="sm" onClick={handleShowModal}>
-              Add Country
+            <Button variant="primary" size="sm" onClick={handleShowModal} className="btn float-right">
+            <i class="bi bi-person-add"></i> Add Country
             </Button>
+            <ReactHTMLTableToExcel id="test-table-xls-button" className="btn btn-danger btn-sm" table="tableId" filename="Country_report" sheet="report" buttonText="Download Report"/>
+           
           </div>
           <div className="card-body">
           <table id="tableId" className="table table-bordered table-striped">

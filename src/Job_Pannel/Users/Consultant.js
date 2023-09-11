@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import $ from 'jquery'; // jQuery
+import Swal from 'sweetalert2';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 function Consultant() {
   const [showModal, setShowModal] = useState(false);
@@ -68,7 +70,7 @@ function Consultant() {
   const tableRef = useRef(null);
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://localhost:7103/api/Registration/Consultant');
+      const response = await axios.get('https://localhost:7103/api/Consultant/Consultant');
       setConsultant(response.data);
 
       if ($.fn.DataTable.isDataTable('#tableId')) {
@@ -184,6 +186,11 @@ window.handleDelete = (cons_Id) => {
       }
       if (Object.keys(errors).length > 0) {
         setFormErrors(errors);
+        Swal.fire({title: 'Warning', text: 'Something went wrong..!', icon: 'error' }).then((result) => {
+          if (result.isConfirmed) {
+            window.scrollTo({top: 0,behavior: 'smooth'});
+          }
+        });
         return;
       }
 
@@ -192,11 +199,20 @@ window.handleDelete = (cons_Id) => {
       } else {
         await axios.post('https://localhost:7103/api/Registration/consultant', formData);
       }
-      console.log('User added successfully');
+      Swal.fire({title: 'Success', text: '', icon: 'success' }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+          window.scrollTo({top: 0,behavior: 'smooth'});
+        }
+      });
       handleCloseModal();
-      window.location.reload();
     } catch (error) {
-      console.error('User added failed', error);
+      Swal.fire({title: 'Warning', text: 'Something went wrong..!', icon: 'error' }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+          window.scrollTo({top: 0,behavior: 'smooth'});
+        }
+      });
     }
   };
 
@@ -223,14 +239,16 @@ window.handleDelete = (cons_Id) => {
   return(
     <div>
       <Navbar />
-       
+      <br></br>
+        <br></br>
       <div className="container px-4">
         <div className="card mt-4">
           <div className="card-header d-flex justify-content-between align-items-center small">
             <h4>All Consultant List</h4>
-            <Button variant="danger" size="sm" onClick={handleShowModal}>
-              Add Consultant
+            <Button variant="primary" size="sm" onClick={handleShowModal} className="btn float-right">
+            <i class="bi bi-person-add"></i> Add Consultant
             </Button>
+            <ReactHTMLTableToExcel id="test-table-xls-button" className="btn btn-danger btn-sm" table="tableId" filename="Consultant_report" sheet="report" buttonText="Download Report"/>
           </div>
           <div className="card-body">
           <table id="tableId" className="table table-bordered table-striped">

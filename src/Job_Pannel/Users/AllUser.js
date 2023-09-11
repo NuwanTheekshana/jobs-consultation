@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import $ from 'jquery'; // jQuery
+import Swal from 'sweetalert2';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 function AllUser() {
   const [showModal, setShowModal] = useState(false);
@@ -179,6 +181,11 @@ window.handleDelete = (User_Id) => {
     }
       if (Object.keys(errors).length > 0) {
         setFormErrors(errors);
+        Swal.fire({title: 'Warning', text: 'Something went wrong..!', icon: 'error' }).then((result) => {
+          if (result.isConfirmed) {
+            window.scrollTo({top: 0,behavior: 'smooth'});
+          }
+        });
         return;
       }
 
@@ -187,11 +194,19 @@ window.handleDelete = (User_Id) => {
       } else {
         await axios.post('https://localhost:7103/api/Registration/Users', formData);
       }
-      console.log('User added successfully');
+      Swal.fire({title: 'Success', text: '', icon: 'success' }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+          window.scrollTo({top: 0,behavior: 'smooth'});
+        }
+      });
       handleCloseModal();
-      window.location.reload();
     } catch (error) {
-      console.error('User added failed', error);
+      Swal.fire({title: 'Warning', text: 'Something went wrong..!', icon: 'error' }).then((result) => {
+        if (result.isConfirmed) {
+          window.scrollTo({top: 0,behavior: 'smooth'});
+        }
+      });
     }
   };
 
@@ -199,14 +214,16 @@ window.handleDelete = (User_Id) => {
   return(
     <div>
       <Navbar />
-       
+      <br></br>
+        <br></br>
       <div className="container px-4">
         <div className="card mt-4">
           <div className="card-header d-flex justify-content-between align-items-center small">
             <h4>All User List</h4>
-            <Button variant="danger" size="sm" onClick={handleShowModal}>
-              Add Other Users
+            <Button variant="primary" size="sm" onClick={handleShowModal}>
+            <i class="bi bi-person-add"></i> Add Other Users
             </Button>
+            <ReactHTMLTableToExcel id="test-table-xls-button" className="btn btn-danger btn-sm" table="tableId" filename="All_User_report" sheet="report" buttonText="Download Report"/>
           </div>
           <div className="card-body">
           <table id="tableId" className="table table-bordered table-striped">
