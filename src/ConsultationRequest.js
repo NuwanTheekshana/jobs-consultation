@@ -161,6 +161,9 @@ function ConsultantRequest() {
         errors.country = 'Consultants are not available.';
         setFormErrors(errors);
       } else {
+        errors.Job_Category = '';
+        errors.country = '';
+        setFormErrors(errors);
         setConsultant(response.data);
       }
     } catch (error) {
